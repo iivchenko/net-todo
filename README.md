@@ -5,7 +5,8 @@ Simple web based task management cross-platform application based on .NET and An
 ![High level design](docs/high-level-design.png)
 
 ## Prerequisites
-* .NET 5
+* .Net Core 3.1
+* Docker
  
 ## Tech Stack
  * [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/)
@@ -13,6 +14,7 @@ Simple web based task management cross-platform application based on .NET and An
  * [NUnit](https://nunit.org/)
  * [MediatR](https://github.com/jbogard/MediatR)
  * [AutoMapper](https://automapper.org/)
+ * [Docker](https://www.docker.com/)
 
 ## Principles:
  * SOLID

@@ -1,0 +1,16 @@
+name: todo
+services:
+
+- name: todo-host
+  project: src/Todo.Host/Todo.Host.csproj
+
+- name: data-mssql
+  image: mcr.microsoft.com/mssql/server
+  env:
+  - name: SA_PASSWORD
+    value: Pass@word
+  - name: ACCEPT_EULA
+    value: Y
+  bindings:
+    - port: 5433
+      containerPort: 1433

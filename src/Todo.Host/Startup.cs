@@ -1,12 +1,16 @@
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using Todo.Application.Domain.Common;
 using Todo.Infrastructure.Persistence.MsSql;
+using Todo.Infrastructure.Persistence.MsSql.LableAggregate;
 
 namespace Todo.Host
 {
@@ -22,10 +26,19 @@ namespace Todo.Host
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddDbContext<TodoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("todo-db"), o => o.EnableRetryOnFailure()));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IRepository<Todo.Application.Domain.LableAggregate.Label, Guid>, MsSqlEfLabelRepository>();
+            services.AddScoped<IReadRepository<Todo.Application.Domain.LableAggregate.Label, Guid>, MsSqlEfLabelRepository>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddDbContext<TodoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("todo-db"), o => o.EnableRetryOnFailure()));
 
             services.AddControllersWithViews();
+            
+            services.AddSwaggerGen();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -53,6 +66,13 @@ namespace Todo.Host
             {
                 app.UseSpaStaticFiles();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API V1");
+            });
 
             app.UseRouting();
 

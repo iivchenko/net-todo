@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Todo.Application.Domain.Common;
 
 namespace Todo.Infrastructure.Persistence.MsSql
 {
-    public sealed class UnitOfWork
+    public sealed class UnitOfWork : IUnitOfWork
     {
         private readonly TodoContext _context;
 
@@ -11,7 +12,7 @@ namespace Todo.Infrastructure.Persistence.MsSql
             _context = context;
         }
 
-        public async Task Commit()
+        public async Task CommitAsync()
         {
             await _context.SaveChangesAsync();
         }

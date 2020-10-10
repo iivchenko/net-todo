@@ -15,13 +15,13 @@
             Red = Green = Blue = Alpha = 0;
         }
 
-        public byte Red { get; }
+        public byte Red { get; private set; }
 
-        public byte Green { get; }
+        public byte Green { get; private set; }
 
-        public byte Blue { get; }
+        public byte Blue { get; private set; }
 
-        public byte Alpha { get; }
+        public byte Alpha { get; private set; }
 
         public override bool Equals(object obj)
         {

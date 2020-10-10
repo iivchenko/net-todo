@@ -26,6 +26,12 @@ namespace Todo.Infrastructure.Persistence.MsSql.LableAggregate
 
             builder
                 .OwnsOne(x => x.Color);
+
+            builder
+                .Property(x => x.DateCreated);
+
+            builder
+                .Property(x => x.DateUpdated);
         }
     }
 }
